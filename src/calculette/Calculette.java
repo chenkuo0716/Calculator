@@ -11,15 +11,15 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class Calculette extends Application {
-	// 生成文本框组
+	// Generate text box
 	TextField text1 = new TextField("");
 	TextField text2 = new TextField("");
 	TextField text3 = new TextField("");
 	TextField text4 = new TextField("");
 	TextField text5 = new TextField("");
- 
+
 	public void start(Stage pr) {
-		// 文本框组参数
+		// Text box parameters
 		text1.setFont(Font.font(23.5));
 		text2.setFont(Font.font(23.5));
 		text3.setFont(Font.font(23.5));
@@ -30,27 +30,27 @@ public class Calculette extends Application {
 		text3.setEditable(false);
 		text4.setEditable(false);
 		text5.setEditable(false);
-		
-		//数组按钮组
+
+		// Array Button
 		String[] number = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
 		Button[] b = new Button[10];
 		for (int i = 0; i < 10; i++) {
 			b[i] = new Button(number[i]);
 			b[i].setPrefSize(80, 40);
 		}
-		
-		// 运算符号按钮组
+
+		// Operation symbol button set
 		Stack<String> stack = new Stack<>();
 		String[] operate = {"+", "-", "*", "/", "<>"};
 		Button[] o = new Button[5];
 		for(int i = 0; i < 5; i++) {
 			o[i] = new Button(operate[i]);
 			o[i].setPrefSize(80, 40);
-			String s = operate[i].toString();		//字符串数组转字符串
+			String s = operate[i].toString();		// String array to string
 			o[i].setOnAction(e->calculer(s, stack));
 		}
-		
-		// 功能按钮组
+
+		// Function button
 		Button c = new Button("C");
 		c.setPrefSize(80, 40);
 		c.setOnAction(e->calculer("C", stack));
@@ -60,21 +60,21 @@ public class Calculette extends Application {
 		Button negative = new Button("+/-");
 		negative.setPrefSize(80, 40);
 		negative.setOnAction(e->calculer("n", stack));
-		
-		// JAVAFX布局
+
+		// JAVAFX layout
 		BorderPane pane0 = new BorderPane();
 		GridPane pane1 = new GridPane();
 		GridPane pane2 = new GridPane();
 		pane0.setTop(pane1);
 		pane0.setBottom(pane2);
-		
+
 		pane1.setPadding(new Insets(8, 8, 8, 8));
 		pane1.add(text5, 0, 0);
 		pane1.add(text4, 0, 1);
 		pane1.add(text3, 0, 2);
 		pane1.add(text2, 0, 3);
 		pane1.add(text1, 0, 4);
- 
+
 		for(int i=0;i<5;i++)
 			pane2.add(o[i], 3, i+1);
 		for (int i = 0, count = 7; i < 3; i++, count = count - 3)
@@ -84,8 +84,8 @@ public class Calculette extends Application {
 		pane2.add(c, 0, 1);
 		pane2.add(point, 1, 5);
 		pane2.add(negative, 2, 5);
-		
-		// 数字按钮内部实现
+
+		// Button implementation
 		for (int i = 0; i < 10; i++) {
 			String carriage = String.valueOf(i);
 			b[i].setOnAction(e -> calculer(carriage, stack));
@@ -95,7 +95,7 @@ public class Calculette extends Application {
 		pr.setScene(scene);
 		pr.show();
 	}
-	
+
 	private void play(String out, Stack<String> stack, int n) {
 		if (n >= 4) {
 			Stack<String> stack_read = (Stack<String>) stack.clone();
@@ -121,16 +121,16 @@ public class Calculette extends Application {
 			}
 		}
 	}
-	
+
 	private void calculer(String s, Stack<String> stack) {
 		String out = "", a, b;
 		int n;
-		
+
 		if (text1.getText().equals("0") || text1.getText().equals("404")) {
 			text1.setText("");
 			out = "";
 		}
-		
+
 		switch (s) {
 			case "+":
 				a = stack.pop();
@@ -141,7 +141,7 @@ public class Calculette extends Application {
 				play(out, stack, n);
 				out = "";
 				break;
-				
+
 			case "-":
 				a = stack.pop();
 				b = stack.pop();
@@ -151,7 +151,7 @@ public class Calculette extends Application {
 				play(out, stack, n);
 				out = "";
 				break;
-				
+
 			case "*":
 				a = stack.pop();
 				b = stack.pop();
@@ -161,7 +161,7 @@ public class Calculette extends Application {
 				play(out, stack, n);
 				out = "";
 				break;
-				
+
 			case "/":
 				a = stack.pop();
 				b = stack.pop();
@@ -171,7 +171,7 @@ public class Calculette extends Application {
 				play(out, stack, n);
 				out = "";
 				break;
-				
+
 			case "<>":
 				out = text1.getText();
 				stack.push(out);
@@ -201,7 +201,7 @@ public class Calculette extends Application {
 				}
 				out = "";
 				break;
-				
+
 			case "C":
 				out = "";
 				text1.setText("");
@@ -209,9 +209,9 @@ public class Calculette extends Application {
 				text3.setText("");
 				text4.setText("");
 				text5.setText("");
-				stack.clear();		// 清空栈
+				stack.clear();		// Clear stack
 				break;
-				
+
 			case "n":
 				out = "-" + text1.getText();
 				break;
